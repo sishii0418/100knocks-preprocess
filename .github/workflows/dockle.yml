@@ -6,17 +6,19 @@ on:
       - master
   pull_request:
 
+permissions: {}
+
 jobs:
   dockle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Run docker containers
         run: docker compose up -d
       - name: Get latest dockle version
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@v7.0.1
         id: get_latest_dockle_version
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}

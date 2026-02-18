@@ -1,4 +1,4 @@
-sales_ymd,sales_epoch,store_cd,receipt_no,receipt_sub_no,customer_id,product_cd,quantity,amount
+﻿sales_ymd,sales_epoch,store_cd,receipt_no,receipt_sub_no,customer_id,product_cd,quantity,amount
 20181103,1541203200,S14006,112,1,CS006214000001,P070305012,1,158
 20181118,1542499200,S13008,1132,2,CS008415000097,P070701017,1,81
 20170712,1499817600,S14028,1102,1,CS028414000014,P060101005,1,170

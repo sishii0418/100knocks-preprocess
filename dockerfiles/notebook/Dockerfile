@@ -1,4 +1,4 @@
-FROM jupyter/datascience-notebook:python-3.11.5
+FROM quay.io/jupyter/datascience-notebook:python-3.11.9
 #FROM jupyter/datascience-notebook:d53a302fbcd0
 USER root
 ENV DEBCONF_NOWARNINGS yes
@@ -19,14 +19,14 @@ RUN apt-get update \
 
 USER jovyan
 WORKDIR /home/jovyan
+COPY requirements.txt .
 COPY Pipfile .
 COPY Pipfile.lock .
+COPY install.R .
 
-# hadolint ignore=SC2016
-RUN pip install --no-cache-dir pipenv==2021.5.29 \
+RUN pip install --no-cache-dir -r requirements.txt \
     && pipenv install --system \
-    && Rscript -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch))' \
-    && Rscript -e 'pak::repo_add(CRAN = "RSPM@2022-12-16"); pak::pak(c("DBI", "RPostgreSQL", "themis"))' \
-    && rm -rf Pipfile* .cache/R/pkgcache/sysreqs/docker/*/Dockerfile /tmp/* /var/tmp/*
+    && Rscript install.R \
+    && rm -rf requirements.txt Pipfile* install.R .cache/R/pkgcache/sysreqs/docker/*/Dockerfile /tmp/* /var/tmp/* .npm/
 
 HEALTHCHECK --interval=5s --retries=20 CMD ["curl", "-s", "-S", "-o", "/dev/null", "http://localhost:8888"]
